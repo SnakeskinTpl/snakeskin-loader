@@ -35,5 +35,6 @@ module.exports = function (source) {
 		}, {});
 	}
 
+	opts.exports = 'none';
 	return snakeskin.compile(source, opts, {file: loaderUtils.getRemainingRequest(this)});
 };
