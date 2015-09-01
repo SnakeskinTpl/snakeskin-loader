@@ -1,0 +1,39 @@
+{
+  "name": "snakeskin-loader",
+  "description": "Using Snakeskin with WebPack.",
+  "homepage": "https://github.com/SnakeskinTpl/snakeskin-loader",
+  "main": "index.js",
+  "license": "MIT",
+  "version": "6.0.0",
+  "author": {
+    "name": "kobezzza",
+    "email": "kobezzza@mail.ru",
+    "url": "https://github.com/kobezzza"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/SnakeskinTpl/snakeskin-loader.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SnakeskinTpl/snakeskin-loader/issues"
+  },
+  "engines": {
+    "node": ">= 0.10"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "keywords": [
+    "webpack",
+    "loader",
+    "snakeskin"
+  ],
+  "dependencies": {
+    "collection.js": "^5.5.5",
+    "loader-utils": "^0.2.7",
+    "snakeskin": "^6.0.0"
+  },
+  "devDependencies": {
+    "jscs": "^2.0.0"
+  }
+}
