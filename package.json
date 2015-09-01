@@ -31,7 +31,7 @@
   "dependencies": {
     "collection.js": "^5.5.5",
     "loader-utils": "^0.2.7",
-    "snakeskin": "^6.0.0"
+    "snakeskin": "^6.6.12"
   },
   "devDependencies": {
     "jscs": "^2.0.0"
