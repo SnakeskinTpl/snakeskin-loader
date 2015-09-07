@@ -7,9 +7,11 @@
  */
 
 var
-	$C = require('collection.js').$C;
+	$C = require('collection.js').$C,
+	parent = module.parent;
 
 var
+	path = require('path'),
 	loaderUtils = require('loader-utils'),
 	snakeskin = require('snakeskin'),
 	beautify = require('js-beautify');
@@ -63,23 +65,29 @@ module.exports = function (source) {
 	return res;
 };
 
+function toJS(str) {
+	return new Function(
+		'module',
+		'exports',
+		'require',
+		'__filename',
+		'__dirname',
+		'return ' + str
+
+	)(parent, parent.exports, parent.require, parent.filename, path.dirname(parent.filename));
+}
+
 function parse(val) {
 	try {
 		if (typeof val === 'object') {
 			$C(val).forEach(function (el, key) {
-				val[key] = new Function(
-					'module',
-					'exports',
-					'require',
-					'__filename',
-					'__dirname',
-					'return ' + el
-
-				)(parent, parent.exports, parent.require, parent.filename, path.dirname(parent.filename));
+				val[key] = toJS(el);
 			});
+
+			return val;
 		}
 
-		return val;
+		return toJS(val);
 
 	} catch (ignore) {
 		return val;
