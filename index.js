@@ -44,7 +44,7 @@ module.exports = function (source) {
 	opts.throws = true;
 
 	var
-		file = loaderUtils.getRemainingRequest(this),
+		file = this.resourcePath,
 		res = snakeskin.compile(source, opts, {file: file});
 
 	if (opts.exec) {
