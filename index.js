@@ -1,3 +1,5 @@
+'use strict';
+
 /*!
  * snakeskin-loader
  * https://github.com/SnakeskinTpl/snakeskin-loader
@@ -6,11 +8,11 @@
  * https://github.com/SnakeskinTpl/snakeskin-loader/blob/master/LICENSE
  */
 
-var
+const
 	$C = require('collection.js').$C,
 	parent = module.parent;
 
-var
+const
 	path = require('path'),
 	loaderUtils = require('loader-utils'),
 	snakeskin = require('snakeskin'),
@@ -40,12 +42,19 @@ module.exports = function (source) {
 		opts.context = tpls;
 	}
 
+	opts.cache = false;
 	opts.exports = 'none';
 	opts.throws = true;
+	opts.debug = opts.debug || {};
 
 	var
 		file = this.resourcePath,
-		res = snakeskin.compile(source, opts, {file: file});
+		res = snakeskin.compile(source, opts, {file: file}),
+		_this = this;
+
+	$C(opts.debug.files).forEach(function (bool, filePath) {
+		_this.addDependency(filePath);
+	});
 
 	if (opts.exec) {
 		res = snakeskin.returnMainTpl(tpls, file, opts.tpl) || '';
