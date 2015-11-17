@@ -4,7 +4,7 @@
   "homepage": "https://github.com/SnakeskinTpl/snakeskin-loader",
   "main": "index.js",
   "license": "MIT",
-  "version": "6.0.5",
+  "version": "6.0.6",
   "author": {
     "name": "kobezzza",
     "email": "kobezzza@mail.ru",
@@ -35,6 +35,7 @@
     "snakeskin": "^6.6.12"
   },
   "devDependencies": {
-    "jscs": "^2.0.0"
+    "jscs": "^2.0.0",
+    "webpack": "^1.12.4"
   }
 }
