@@ -1,5 +1,3 @@
-'use strict';
-
 /*!
  * snakeskin-loader
  * https://github.com/SnakeskinTpl/snakeskin-loader
@@ -8,11 +6,11 @@
  * https://github.com/SnakeskinTpl/snakeskin-loader/blob/master/LICENSE
  */
 
-const
+var
 	$C = require('collection.js').$C,
 	parent = module.parent;
 
-const
+var
 	path = require('path'),
 	loaderUtils = require('loader-utils'),
 	snakeskin = require('snakeskin'),
