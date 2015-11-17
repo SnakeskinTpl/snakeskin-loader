@@ -57,4 +57,4 @@ node_modules
 /.gitignore
 /.gitattributes
 /.npmignore
-/examples
+/examples/
