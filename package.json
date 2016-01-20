@@ -31,11 +31,15 @@
   "dependencies": {
     "collection.js": "^5.5.5",
     "js-beautify": "^1.5.10",
-    "loader-utils": "^0.2.7",
-    "snakeskin": "^6.6.12"
+    "loader-utils": "^0.2.7"
   },
   "devDependencies": {
     "jscs": "^2.0.0",
-    "webpack": "^1.12.4"
+    "snakeskin": "git://github.com/SnakeskinTpl/Snakeskin.git#v7.0",
+    "webpack": "^1.12.11"
+  },
+  "peerDependencies": {
+    "snakeskin": "git://github.com/SnakeskinTpl/Snakeskin.git#v7.0",
+    "webpack": "*"
   }
 }
