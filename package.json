@@ -35,11 +35,11 @@
   },
   "devDependencies": {
     "jscs": "^2.0.0",
-    "snakeskin": "git://github.com/SnakeskinTpl/Snakeskin.git#v7.0",
+    "snakeskin": "git://github.com/SnakeskinTpl/Snakeskin.git",
     "webpack": "^1.12.11"
   },
   "peerDependencies": {
-    "snakeskin": "git://github.com/SnakeskinTpl/Snakeskin.git#v7.0",
+    "snakeskin": "git://github.com/SnakeskinTpl/Snakeskin.git",
     "webpack": "*"
   }
 }
