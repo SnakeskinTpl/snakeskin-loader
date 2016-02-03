@@ -41,7 +41,6 @@ module.exports = function (source) {
 	}
 
 	opts.cache = false;
-	opts.exports = 'none';
 	opts.throws = true;
 	opts.debug = opts.debug || {};
 
