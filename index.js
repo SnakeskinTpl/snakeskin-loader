@@ -55,7 +55,7 @@ module.exports = function (source) {
 	});
 
 	if (opts.exec) {
-		res = snakeskin.returnMainTpl(tpls, file, opts.tpl) || '';
+		res = snakeskin.getMainTpl(tpls, file, opts.tpl) || '';
 
 		if (res) {
 			res = res(opts.data);
