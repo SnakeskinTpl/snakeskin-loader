@@ -1,11 +1,16 @@
-'use strict';
+/*!
+ * snakeskin-loader
+ * https://github.com/SnakeskinTpl/snakeskin-loader
+ *
+ * Released under the MIT license
+ * https://github.com/SnakeskinTpl/snakeskin-loader/blob/master/LICENSE
+ */
 
-const
+var
 	path = require('path');
 
 module.exports = {
 	context: __dirname,
-
 	entry: './index.js',
 
 	output: {
@@ -19,7 +24,6 @@ module.exports = {
 				test: /.ss$/,
 				loader: 'snakeskin',
 				query: {
-					doctype: 'html',
 					prettyPrint: true
 				}
 			}
@@ -30,5 +34,9 @@ module.exports = {
 		alias: {
 			'snakeskin': path.resolve(__dirname, '../../index.js')
 		}
+	},
+
+	externals: {
+		'snakeskin': 'Snakeskin'
 	}
 };

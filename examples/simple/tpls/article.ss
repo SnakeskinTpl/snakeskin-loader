@@ -1,9 +1,19 @@
+- namespace [%fileName%]
+
+/*!
+ * snakeskin-loader
+ * https://github.com/SnakeskinTpl/snakeskin-loader
+ *
+ * Released under the MIT license
+ * https://github.com/SnakeskinTpl/snakeskin-loader/blob/master/LICENSE
+ */
+
 - include './block'
 - include './header'
 - include './body'
 
-- template [%fileName%](title, content) extends ['block']
+- template [%fileName%](title, content) extends ['block']['block']
 	- className = 'article'
 	- block body
-		- call self['header'](title)
-		- call self['body'](content)
+		- call exports['header']['header'](title)
+		- call exports['body']['body'](content)
