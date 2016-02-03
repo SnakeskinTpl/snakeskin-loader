@@ -43,6 +43,7 @@ module.exports = function (source) {
 	opts.cache = false;
 	opts.throws = true;
 	opts.debug = opts.debug || {};
+	opts.module = opts.module || 'cjs';
 
 	var
 		file = this.resourcePath,
