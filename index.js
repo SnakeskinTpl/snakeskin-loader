@@ -62,10 +62,10 @@ module.exports = function (source) {
 
 			if (prettyPrint) {
 				res = beautify['html'](res);
-				res = res.replace(/\r?\n|\r/g, opts.lineSeparator);
+				res = res.replace(/\r?\n|\r/g, opts.eol);
 			}
 
-			res += opts.lineSeparator;
+			res += opts.eol;
 		}
 	}
 
