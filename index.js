@@ -25,7 +25,7 @@ module.exports = function (source) {
 		opts = loaderUtils.parseQuery(this.query),
 		tpls = {};
 
-	opts = $$C(opts).reduce(function (map, val, key) {
+	opts = $C(opts).reduce(function (map, val, key) {
 		map[key] = parse(val);
 		return map;
 
