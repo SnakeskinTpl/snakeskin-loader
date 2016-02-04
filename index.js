@@ -25,10 +25,11 @@ module.exports = function (source) {
 		opts = loaderUtils.parseQuery(this.query),
 		tpls = {};
 
-	opts = $C(opts).reduce(function (map, val, key) {
+	opts = $$C(opts).reduce(function (map, val, key) {
 		map[key] = parse(val);
 		return map;
-	}, {});
+
+	}, {debug: {}, module: 'cjs', eol: '\n'});
 
 	var prettyPrint;
 	if (opts.exec) {
@@ -42,8 +43,6 @@ module.exports = function (source) {
 
 	opts.cache = false;
 	opts.throws = true;
-	opts.debug = opts.debug || {};
-	opts.module = opts.module || 'cjs';
 
 	var
 		file = this.resourcePath,
