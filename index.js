@@ -27,7 +27,7 @@ module.exports = function (source) {
 		opts = loaderUtils.parseQuery(this.query),
 		tpls = {};
 
-	if (!opts && exists(ssrc)) {
+	if (!this.query && exists(ssrc)) {
 		opts = snakeskin.toObj(ssrc);
 	}
 

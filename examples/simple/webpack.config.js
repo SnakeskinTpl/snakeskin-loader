@@ -22,10 +22,7 @@ module.exports = {
 		loaders: [
 			{
 				test: /.ss$/,
-				loader: 'snakeskin',
-				query: {
-					prettyPrint: true
-				}
+				loader: 'snakeskin'
 			}
 		]
 	},
