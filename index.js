@@ -14,7 +14,8 @@ var
 	path = require('path'),
 	loaderUtils = require('loader-utils'),
 	snakeskin = require('snakeskin'),
-	beautify = require('js-beautify');
+	beautify = require('js-beautify'),
+	exists = require('exists-sync');
 
 module.exports = function (source) {
 	if (this.cacheable) {
@@ -22,8 +23,13 @@ module.exports = function (source) {
 	}
 
 	var
+		ssrc = path.join(process.cwd(), '.snakeskinrc'),
 		opts = loaderUtils.parseQuery(this.query),
 		tpls = {};
+
+	if (!opts && exists(ssrc)) {
+		opts = snakeskin.toObj(ssrc);
+	}
 
 	opts = $C(opts).reduce(function (map, val, key) {
 		map[key] = parse(val);
