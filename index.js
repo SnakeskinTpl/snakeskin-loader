@@ -49,6 +49,7 @@ module.exports = function (source) {
 
 	opts.cache = false;
 	opts.throws = true;
+	opts.pack = opts.pack !== undefined ? opts.pack : true;
 
 	var
 		file = this.resourcePath,

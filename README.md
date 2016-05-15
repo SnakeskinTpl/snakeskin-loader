@@ -6,6 +6,7 @@ Using [Snakeskin](https://github.com/SnakeskinTpl/Snakeskin) with [WebPack](http
 [![NPM version](http://img.shields.io/npm/v/snakeskin-loader.svg?style=flat)](http://badge.fury.io/js/snakeskin-loader)
 [![NPM dependencies](http://img.shields.io/david/SnakeskinTpl/snakeskin-loader.svg?style=flat)](https://david-dm.org/SnakeskinTpl/snakeskin-loader)
 [![NPM devDependencies](http://img.shields.io/david/dev/SnakeskinTpl/snakeskin-loader.svg?style=flat)](https://david-dm.org/SnakeskinTpl/snakeskin-loader#info=devDependencies&view=table)
+[![NPM peerDependencies](https://david-dm.org/SnakeskinTpl/snakeskin-loader/peer-status.svg)](https://david-dm.org/SnakeskinTpl/snakeskin-loader#info=peerDependencies)
 [![Build Status](http://img.shields.io/travis/SnakeskinTpl/snakeskin-loader.svg?style=flat&branch=master)](https://travis-ci.org/SnakeskinTpl/snakeskin-loader)
 
 ## Install
@@ -44,8 +45,7 @@ webpack({
 });
 ```
 
-## [Options](https://github.com/SnakeskinTpl/Snakeskin/wiki/compile)
-
+## [Options](http://snakeskintpl.github.io/docs/api.html#compile--opt_params)
 ### exec
 
 Type: `Boolean`
