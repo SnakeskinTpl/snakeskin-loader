@@ -39,8 +39,6 @@ module.exports = function (source) {
 
 	}, {debug: {}, module: 'cjs', eol: '\n'});
 
-	opts.jsx = true;
-
 	if (opts.jsx) {
 		opts.literalBounds = ['{', '}'];
 		opts.renderMode = 'stringConcat';
