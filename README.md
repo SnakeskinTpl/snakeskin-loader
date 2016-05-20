@@ -46,6 +46,15 @@ webpack({
 ```
 
 ## [Options](http://snakeskintpl.github.io/docs/api.html#compile--opt_params)
+### jsx
+
+Type: `Boolean`
+
+Default: `false`
+
+If the parameter is set to `true` the templates will be converted for using with React.
+If React attached as an external script, don't forget to add the external to the WebPack config.
+
 ### exec
 
 Type: `Boolean`

@@ -31,9 +31,5 @@ module.exports = {
 		alias: {
 			'snakeskin': path.resolve(__dirname, '../../index.js')
 		}
-	},
-
-	externals: {
-		'snakeskin': 'Snakeskin'
 	}
 };
