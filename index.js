@@ -57,7 +57,7 @@ module.exports = function (source) {
 	opts.cache = false;
 	opts.throws = true;
 	opts.pack = opts.pack !== undefined ? opts.pack : true;
-	var n = opts.eol || '\n';
+	var n = opts.eol;
 
 	var
 		file = this.resourcePath,
@@ -99,10 +99,10 @@ module.exports = function (source) {
 
 			if (prettyPrint) {
 				res = beautify['html'](res);
-				res = res.replace(/\r?\n|\r/g, opts.eol);
+				res = res.replace(/\r?\n|\r/g, n);
 			}
 
-			res += opts.eol;
+			res += n;
 		}
 	}
 
