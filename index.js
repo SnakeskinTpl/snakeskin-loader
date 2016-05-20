@@ -57,11 +57,11 @@ module.exports = function (source) {
 	opts.cache = false;
 	opts.throws = true;
 	opts.pack = opts.pack !== undefined ? opts.pack : true;
-	var n = opts.eol;
 
 	var
 		file = this.resourcePath,
 		res = snakeskin.compile(source, opts, {file: file}),
+		n = opts.eol,
 		that = this;
 
 	$C(opts.debug.files).forEach(function (bool, filePath) {
