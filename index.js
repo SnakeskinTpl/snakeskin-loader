@@ -37,7 +37,6 @@ module.exports = function (source) {
 		return map;
 
 	}, {
-		debug: {},
 		module: 'cjs',
 		moduleId: 'tpls',
 		useStrict: true,
@@ -70,6 +69,7 @@ module.exports = function (source) {
 		opts.context = tpls;
 	}
 
+	opts.debug = {};
 	opts.cache = false;
 	opts.throws = true;
 
