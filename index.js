@@ -41,7 +41,8 @@ module.exports = function (source) {
 		module: 'cjs',
 		moduleId: 'tpls',
 		useStrict: true,
-		eol: '\n'
+		eol: '\n',
+		pack: true
 	});
 
 	var
@@ -71,7 +72,6 @@ module.exports = function (source) {
 
 	opts.cache = false;
 	opts.throws = true;
-	opts.pack = opts.pack !== undefined ? opts.pack : true;
 
 	var
 		file = this.resourcePath,
