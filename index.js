@@ -26,8 +26,7 @@ module.exports = function (source) {
 	var
 		ssrc = path.join(process.cwd(), '.snakeskinrc'),
 		opts = loaderUtils.parseQuery(this.query),
-		tpls = {},
-		prettyPrint;
+		tpls = {};
 
 	if (!this.query && exists(ssrc)) {
 		opts = snakeskin.toObj(ssrc);
@@ -37,7 +36,24 @@ module.exports = function (source) {
 		map[key] = parse(val);
 		return map;
 
-	}, {debug: {}, module: 'cjs', eol: '\n'});
+	}, {
+		debug: {},
+		module: 'cjs',
+		moduleId: 'tpls',
+		useStrict: true,
+		eol: '\n'
+	});
+
+	var
+		eol = opts.eol,
+		mod = opts.module,
+		useStrict = opts.useStrict ? '"useStrict";' : '',
+		prettyPrint = opts.prettyPrint,
+		nRgxp = /\r?\n|\r/g;
+
+	if (opts.jsx || opts.exec) {
+		opts.module = 'cjs';
+	}
 
 	if (opts.jsx) {
 		opts.literalBounds = ['{', '}'];
@@ -48,7 +64,6 @@ module.exports = function (source) {
 	} else if (opts.exec) {
 		if (opts.prettyPrint) {
 			opts.prettyPrint = false;
-			prettyPrint = true;
 		}
 
 		opts.context = tpls;
@@ -61,20 +76,46 @@ module.exports = function (source) {
 	var
 		file = this.resourcePath,
 		res = snakeskin.compile(source, opts, {file: file}),
-		n = opts.eol,
 		that = this;
 
 	$C(opts.debug.files).forEach(function (bool, filePath) {
 		that.addDependency(filePath);
 	});
 
+	function testId(id) {
+		try {
+			var obj = {};
+			eval('obj.' + id + '= true');
+			return true;
+
+		} catch (ignore) {
+			return false;
+		}
+	}
+
 	function compileJSX(tpls, prop) {
 		prop = prop || 'exports';
 		$C(tpls).forEach(function (el, key) {
-			var val = prop + '["' + key.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"]';
+			var
+				val,
+				validKey = false;
+
+			if (testId(key)) {
+				val = prop + '.' + key;
+				validKey = true;
+
+			} else {
+				val = prop + '["' + key.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"]';
+			}
 
 			if (typeof el !== 'function') {
-				res += 'if (' + val + ' instanceof Object === false) {' + n + '  ' + val + ' = {};' + n + '}' + n + n;
+				res +=
+					'if (' + val + ' instanceof Object === false) {' +
+						val + ' = {};' +
+						(validKey && mod === 'native' ? 'export var ' + key + '=' + val + ';' : '') +
+					'}'
+				;
+
 				return compileJSX(el, val);
 			}
 
@@ -91,8 +132,58 @@ module.exports = function (source) {
 	}
 
 	if (opts.jsx) {
-		res = 'var React = require("react");' + n + n;
+		res = /\/\*[\s\S]*?\*\//.exec(res)[0];
+
+		if (mod === 'native') {
+			res +=
+				useStrict +
+				'import React from "react";' +
+				'var exports = {};' +
+				'export default exports;'
+			;
+
+		} else {
+			res +=
+				'(function(global, factory) {' +
+					(
+						{cjs: true, umd: true}[mod] ?
+							'if (typeof exports === "object" && typeof module !== "undefined") {' +
+								'factory(exports, typeof React === "undefined" ? require("react") : React);' +
+								'return;' +
+							'}' :
+							''
+					) +
+
+					(
+						{amd: true, umd: true}[mod] ?
+							'if (typeof define === "function" && define.amd) {' +
+								'define("' + (opts.moduleId) + '", ["exports", "react"], factory);' +
+								'return;' +
+							'}' :
+							''
+					) +
+
+					(
+						{global: true, umd: true}[mod] ?
+							'factory(global' + (opts.moduleName ? '.' + opts.moduleName + '= {}' : '') + ', React);' :
+							''
+					) +
+
+				'})(this, function (exports, React) {' +
+					useStrict
+			;
+		}
+
 		compileJSX(tpls);
+		if (mod !== 'native') {
+			res += '});';
+		}
+
+		if (prettyPrint) {
+			res = beautify.js(res);
+		}
+
+		res = res.replace(nRgxp, eol) + eol;
 
 	} else if (opts.exec) {
 		res = snakeskin.getMainTpl(tpls, file, opts.tpl) || '';
@@ -101,11 +192,10 @@ module.exports = function (source) {
 			res = res(opts.data);
 
 			if (prettyPrint) {
-				res = beautify['html'](res);
-				res = res.replace(/\r?\n|\r/g, n);
+				res = beautify.html(res);
 			}
 
-			res += n;
+			res = res.replace(nRgxp, eol) + eol;
 		}
 	}
 
