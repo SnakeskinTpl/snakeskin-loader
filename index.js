@@ -53,20 +53,17 @@ module.exports = function (source) {
 
 	if (opts.jsx || opts.exec) {
 		opts.module = 'cjs';
+		opts.context = tpls;
 	}
 
 	if (opts.jsx) {
 		opts.literalBounds = ['{', '}'];
 		opts.renderMode = 'stringConcat';
-		opts.context = tpls;
+		opts.doctype = 'strict';
 		opts.exec = false;
 
-	} else if (opts.exec) {
-		if (opts.prettyPrint) {
-			opts.prettyPrint = false;
-		}
-
-		opts.context = tpls;
+	} else if (opts.exec && opts.prettyPrint) {
+		opts.prettyPrint = false;
 	}
 
 	opts.debug = {};
