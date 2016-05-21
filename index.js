@@ -119,8 +119,12 @@ module.exports = function (source) {
 				return compileJSX(el, val);
 			}
 
-			var decl = /function .*?\)\s*\{/.exec(el.toString());
-			res += babel.transform(val + ' = ' + decl[0] + ' ' + el(opts.data) + '};', {
+			var
+				decl = /function .*?\)\s*\{/.exec(el.toString()),
+				text = el(opts.data);
+
+			text = val + ' = ' + decl[0] + (/\breturn\s+\(?\s*[{<](?!\/)/.test(text) ? '' : 'return ') + text + '};';
+			res += babel.transform(text, {
 				babelrc: false,
 				plugins: [
 					require('babel-plugin-syntax-jsx'),
