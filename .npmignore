@@ -42,6 +42,7 @@ node_modules
 
 # Build && test
 /coverage
+*.build.js
 
 # Log
 *.log
@@ -52,9 +53,10 @@ node_modules
 
 # NPM ignore list
 /.editorconfig
-/.jscsrc
+/.eslintrc
+/.eslintignore
+/.babelrc
 /.travis.yml
 /.gitignore
 /.gitattributes
 /.npmignore
-/examples/

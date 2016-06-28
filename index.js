@@ -6,6 +6,8 @@
  * https://github.com/SnakeskinTpl/snakeskin-loader/blob/master/LICENSE
  */
 
+require('core-js/es6/object');
+
 var
 	$C = require('collection.js').$C,
 	parent = module.parent;
@@ -24,7 +26,8 @@ module.exports = function (source) {
 
 	var
 		ssrc = path.join(process.cwd(), '.snakeskinrc'),
-		opts = loaderUtils.parseQuery(this.query);
+		opts = loaderUtils.parseQuery(this.query),
+		cb = this.async();
 
 	if (!this.query && exists(ssrc)) {
 		opts = snakeskin.toObj(ssrc);
@@ -34,11 +37,11 @@ module.exports = function (source) {
 		map[key] = parse(val);
 		return map;
 
-	}, {
+	}, Object.assign({
 		module: 'cjs',
 		eol: '\n',
 		pack: true
-	});
+	}, this.options.snakeskin));
 
 	var
 		eol = opts.eol,
@@ -55,12 +58,29 @@ module.exports = function (source) {
 
 	var
 		file = this.resourcePath,
-		res;
+		info = {file: file},
+		that = this;
 
-	if (opts.jsx) {
-		res = snakeskin.compileAsJSX(source, opts, {file: file});
+	function cache() {
+		$C(opts.debug.files).forEach(function (bool, filePath) {
+			that.addDependency(filePath);
+		});
+	}
 
-	} else {
+	if (opts.adapter || opts.jsx) {
+		return require(opts.jsx ? 'ss2react' : opts.adapter).adapter(source, opts, info).then(
+			function (res) {
+				cache();
+				cb(null, res);
+			},
+
+			function (err) {
+				cb(err);
+			}
+		);
+	}
+
+	try {
 		var tpls = {};
 
 		if (opts.exec) {
@@ -68,29 +88,34 @@ module.exports = function (source) {
 			opts.context = tpls;
 		}
 
-		res = snakeskin.compile(source, opts, {file: file});
+		var res = snakeskin.compile(source, opts, info);
+		cache();
 
 		if (opts.exec) {
-			res = snakeskin.getMainTpl(tpls, file, opts.tpl) || '';
+			res = snakeskin.getMainTpl(tpls, info.file, opts.tpl) || '';
 
 			if (res) {
-				res = res(opts.data);
+				return snakeskin.execTpl(res, opts.data).then(
+					function (res) {
+						if (prettyPrint) {
+							res = beautify.html(res);
+						}
 
-				if (prettyPrint) {
-					res = beautify.html(res);
-				}
+						cb(null, res.replace(nRgxp, eol) + eol);
+					},
 
-				res = res.replace(nRgxp, eol) + eol;
+					function (err) {
+						cb(err);
+					}
+				);
 			}
 		}
+
+		cb(null, res);
+
+	} catch (err) {
+		return cb(err);
 	}
-
-	var that = this;
-	$C(opts.debug.files).forEach(function (bool, filePath) {
-		that.addDependency(filePath);
-	});
-
-	return res;
 };
 
 function toJS(str) {

@@ -4,7 +4,7 @@
   "homepage": "https://github.com/SnakeskinTpl/snakeskin-loader",
   "main": "index.js",
   "license": "MIT",
-  "version": "7.1.5",
+  "version": "7.2.0",
   "author": {
     "name": "kobezzza",
     "email": "kobezzza@mail.ru",
@@ -30,17 +30,18 @@
   ],
   "dependencies": {
     "collection.js": "^5.5.5",
+    "core-js": "^2.4.0",
     "exists-sync": "0.0.3",
     "js-beautify": "^1.5.10",
     "loader-utils": "^0.2.7"
   },
   "devDependencies": {
-    "jscs": "^3.0.0",
-    "snakeskin": "^7.0.10",
+    "eslint": "^2.13.1",
+    "snakeskin": "^7.1.9",
     "webpack": "^1.12.11"
   },
   "peerDependencies": {
-    "snakeskin": "^7.0.10",
+    "snakeskin": "^7.1.9",
     "webpack": "*"
   }
 }
