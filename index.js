@@ -6,10 +6,10 @@
  * https://github.com/SnakeskinTpl/snakeskin-loader/blob/master/LICENSE
  */
 
-require('core-js/es6/object');
+require('core-js');
 
 var
-	$C = require('collection.js').$C,
+	$C = require('collection.js/compiled'),
 	parent = module.parent;
 
 var
