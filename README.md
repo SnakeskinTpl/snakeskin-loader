@@ -6,8 +6,8 @@ Using [Snakeskin](https://github.com/SnakeskinTpl/Snakeskin) with [WebPack](http
 [![NPM version](http://img.shields.io/npm/v/snakeskin-loader.svg?style=flat)](http://badge.fury.io/js/snakeskin-loader)
 [![Build Status](http://img.shields.io/travis/SnakeskinTpl/snakeskin-loader.svg?style=flat&branch=master)](https://travis-ci.org/SnakeskinTpl/snakeskin-loader)
 [![NPM dependencies](http://img.shields.io/david/SnakeskinTpl/snakeskin-loader.svg?style=flat)](https://david-dm.org/SnakeskinTpl/snakeskin-loader)
-[![NPM devDependencies](http://img.shields.io/david/dev/SnakeskinTpl/snakeskin-loader.svg?style=flat)](https://david-dm.org/SnakeskinTpl/snakeskin-loader#info=devDependencies&view=table)
-[![NPM peerDependencies](https://david-dm.org/SnakeskinTpl/snakeskin-loader/peer-status.svg)](https://david-dm.org/SnakeskinTpl/snakeskin-loader#info=peerDependencies)
+[![NPM devDependencies](http://img.shields.io/david/dev/SnakeskinTpl/snakeskin-loader.svg?style=flat)](https://david-dm.org/SnakeskinTpl/snakeskin-loader?type=dev)
+[![NPM peerDependencies](http://img.shields.io/david/peer/SnakeskinTpl/snakeskin-loader.svg?style=flat)](https://david-dm.org/SnakeskinTpl/snakeskin-loader?type=peer)
 
 ## Install
 
