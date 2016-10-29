@@ -1,3 +1,5 @@
+'use strict';
+
 /*!
  * snakeskin-loader
  * https://github.com/SnakeskinTpl/snakeskin-loader
@@ -6,7 +8,7 @@
  * https://github.com/SnakeskinTpl/snakeskin-loader/blob/master/LICENSE
  */
 
-var
+const
 	path = require('path');
 
 module.exports = {

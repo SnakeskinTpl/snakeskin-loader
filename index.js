@@ -1,3 +1,5 @@
+'use strict';
+
 /*!
  * snakeskin-loader
  * https://github.com/SnakeskinTpl/snakeskin-loader
@@ -6,13 +8,11 @@
  * https://github.com/SnakeskinTpl/snakeskin-loader/blob/master/LICENSE
  */
 
-require('core-js');
-
-var
+const
 	$C = require('collection.js/compiled'),
 	parent = module.parent;
 
-var
+const
 	path = require('path'),
 	loaderUtils = require('loader-utils'),
 	snakeskin = require('snakeskin'),
@@ -24,16 +24,16 @@ module.exports = function (source) {
 		this.cacheable();
 	}
 
-	var
+	const
 		ssrc = path.join(process.cwd(), '.snakeskinrc'),
-		opts = loaderUtils.parseQuery(this.query),
 		cb = this.async();
 
+	let opts = loaderUtils.parseQuery(this.query);
 	if (!this.query && exists(ssrc)) {
 		opts = snakeskin.toObj(ssrc);
 	}
 
-	opts = $C(opts).reduce(function (map, val, key) {
+	opts = $C(opts).reduce((map, val, key) => {
 		map[key] = parse(val);
 		return map;
 
@@ -43,7 +43,7 @@ module.exports = function (source) {
 		pack: true
 	}, this.options.snakeskin));
 
-	var
+	const
 		eol = opts.eol,
 		prettyPrint = opts.prettyPrint,
 		nRgxp = /\r?\n|\r/g;
@@ -56,39 +56,37 @@ module.exports = function (source) {
 	opts.cache = false;
 	opts.throws = true;
 
-	var
+	const
 		file = this.resourcePath,
-		info = {file: file},
-		that = this;
+		info = {file};
 
 	function cache() {
-		$C(opts.debug.files).forEach(function (bool, filePath) {
-			that.addDependency(filePath);
-		});
+		$C(opts.debug.files).forEach((bool, filePath) => this.addDependency(filePath));
 	}
 
 	if (opts.adapter || opts.jsx) {
 		return require(opts.jsx ? 'ss2react' : opts.adapter).adapter(source, opts, info).then(
-			function (res) {
+			(res) => {
 				cache();
 				cb(null, res);
 			},
 
-			function (err) {
+			(err) => {
 				cb(err);
 			}
 		);
 	}
 
 	try {
-		var tpls = {};
+		const
+			tpls = {};
 
 		if (opts.exec) {
 			opts.module = 'cjs';
 			opts.context = tpls;
 		}
 
-		var res = snakeskin.compile(source, opts, info);
+		let res = snakeskin.compile(source, opts, info);
 		cache();
 
 		if (opts.exec) {
@@ -96,7 +94,7 @@ module.exports = function (source) {
 
 			if (res) {
 				return snakeskin.execTpl(res, opts.data).then(
-					function (res) {
+					(res) => {
 						if (prettyPrint) {
 							res = beautify.html(res);
 						}
@@ -104,7 +102,7 @@ module.exports = function (source) {
 						cb(null, res.replace(nRgxp, eol) + eol);
 					},
 
-					function (err) {
+					(err) => {
 						cb(err);
 					}
 				);
@@ -125,7 +123,7 @@ function toJS(str) {
 		'require',
 		'__filename',
 		'__dirname',
-		'return ' + str
+		`return ${str}`
 
 	)(parent, parent.exports, parent.require, parent.filename, path.dirname(parent.filename));
 }
@@ -133,10 +131,7 @@ function toJS(str) {
 function parse(val) {
 	try {
 		if (typeof val === 'object') {
-			$C(val).forEach(function (el, key) {
-				val[key] = toJS(el);
-			});
-
+			$C(val).set((el) => toJS(el));
 			return val;
 		}
 
