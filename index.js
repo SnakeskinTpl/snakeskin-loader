@@ -20,9 +20,7 @@ const
 	exists = require('exists-sync');
 
 module.exports = function (source) {
-	if (this.cacheable) {
-		this.cacheable();
-	}
+	this.cacheable && this.cacheable();
 
 	const
 		ssrc = path.join(process.cwd(), '.snakeskinrc'),
