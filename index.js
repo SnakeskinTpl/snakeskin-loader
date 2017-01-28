@@ -58,9 +58,9 @@ module.exports = function (source) {
 		file = this.resourcePath,
 		info = {file};
 
-	function cache() {
+	const cache = () => {
 		$C(opts.debug.files).forEach((bool, filePath) => this.addDependency(filePath));
-	}
+	};
 
 	if (opts.adapter || opts.jsx) {
 		return require(opts.jsx ? 'ss2react' : opts.adapter).adapter(source, opts, info).then(
