@@ -12,10 +12,15 @@ Using [Snakeskin](https://github.com/SnakeskinTpl/Snakeskin) with [WebPack](http
 ## Install
 
 ```bash
-npm install snakeskin-loader --save-dev
+# WebPack 1
+npm install snakeskin snakeskin-loader@webpack1 --save-dev
+
+# WebPack 2+
+npm install snakeskin snakeskin-loader --save-dev
 ```
 
 ## Usage
+### Webpack 1
 
 **webpack.config.json**
 
@@ -46,6 +51,48 @@ webpack({
       plugins: [require('babel-plugin-transform-async-to-generator')]
     }
   }
+}, function (err, stats) {
+    // ...
+});
+```
+
+### Webpack 2+
+
+**webpack.config.json**
+
+```js
+var webpack = require('webpack');
+
+webpack({
+  entry: {
+      index: './index.js'
+  },
+
+  output: {
+      filename: '[name].bundle.js'
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.ss$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'snakeskin-loader',
+            options: {
+              localization: false,
+              exec: true,
+              babel: {
+                plugins: [require('babel-plugin-transform-async-to-generator')]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+  
 }, function (err, stats) {
     // ...
 });

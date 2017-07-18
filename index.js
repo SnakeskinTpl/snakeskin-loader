@@ -9,37 +9,30 @@
  */
 
 const
-	$C = require('collection.js/compiled'),
-	parent = module.parent;
+	$C = require('collection.js/compiled');
 
 const
+	fs = require('fs'),
 	path = require('path'),
 	loaderUtils = require('loader-utils'),
 	snakeskin = require('snakeskin'),
-	beautify = require('js-beautify'),
-	exists = require('exists-sync');
+	beautify = require('js-beautify');
 
 module.exports = function (source) {
-	this.cacheable && this.cacheable();
-
 	const
-		ssrc = path.join(process.cwd(), '.snakeskinrc'),
+		ssRC = path.join(process.cwd(), '.snakeskinrc'),
 		cb = this.async();
 
-	let opts = loaderUtils.parseQuery(this.query);
-	if (!this.query && exists(ssrc)) {
-		opts = snakeskin.toObj(ssrc);
-	}
+	const opts = Object.assign(
+		{
+			module: 'cjs',
+			eol: '\n',
+			pack: true
+		},
 
-	opts = $C(opts).reduce((map, val, key) => {
-		map[key] = parse(val);
-		return map;
-
-	}, Object.assign({
-		module: 'cjs',
-		eol: '\n',
-		pack: true
-	}, this.options.snakeskin));
+		fs.existsSync(ssRC) && snakeskin.toObj(ssRC),
+		loaderUtils.getOptions(this)
+	);
 
 	const
 		eol = opts.eol,
@@ -113,29 +106,3 @@ module.exports = function (source) {
 		return cb(err);
 	}
 };
-
-function toJS(str) {
-	return new Function(
-		'module',
-		'exports',
-		'require',
-		'__filename',
-		'__dirname',
-		`return ${str}`
-
-	)(parent, parent.exports, parent.require, parent.filename, path.dirname(parent.filename));
-}
-
-function parse(val) {
-	try {
-		if (typeof val === 'object') {
-			$C(val).set((el) => toJS(el));
-			return val;
-		}
-
-		return toJS(val);
-
-	} catch (ignore) {
-		return val;
-	}
-}
