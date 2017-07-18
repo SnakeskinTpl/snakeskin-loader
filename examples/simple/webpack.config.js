@@ -21,10 +21,10 @@ module.exports = {
 	},
 
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /.ss$/,
-				loader: 'snakeskin'
+				use: 'snakeskin'
 			}
 		]
 	},
